@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 400,
             child: Text("Start"),
           ),
-          minLeftWidth: 400,
           minSideWidth: 400,
           spacing: 20,
           arrowTopPosition: 30,

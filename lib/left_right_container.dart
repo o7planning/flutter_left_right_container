@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 part '_parts/_knowable_size_container.dart';
+part '_parts/_size_measure_widget.dart';
 
 enum FixedSide {
   start,
@@ -14,7 +15,6 @@ class LeftRightContainer extends StatefulWidget {
   final Widget start;
   final bool initiallyCollapsed;
   final double? minHeight;
-  final double minLeftWidth;
   final double minSideWidth;
   final FixedSide fixedSide;
   final bool hideDividerInLargeSize;
@@ -31,7 +31,6 @@ class LeftRightContainer extends StatefulWidget {
     required this.fixedSizeWidth,
     required this.end,
     required this.start,
-    required this.minLeftWidth,
     required this.minSideWidth,
     this.minHeight,
     this.fixedSide = FixedSide.start,
@@ -52,8 +51,8 @@ class LeftRightContainer extends StatefulWidget {
 class _LeftRightContainerState extends State<LeftRightContainer> {
   bool showStart = true;
   bool showEnd = true;
-  static const double buttonContainerWidth = 18;
-  static const double buttonContainerHeight = 22;
+  double buttonContainerWidth = 18;
+  double buttonContainerHeight = 22;
   static const double iconSize = 14;
 
   double? leftHeight;
@@ -202,9 +201,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     double contentWidth,
     double contentHeight,
   ) {
-    double min = widget.fixedSide == FixedSide.start
-        ? widget.fixedSizeWidth + widget.spacing + widget.minSideWidth
-        : widget.minLeftWidth + widget.spacing + widget.fixedSizeWidth;
+    double minTwoSideWidth =
+        widget.fixedSizeWidth + widget.spacing + widget.minSideWidth;
     //
     if (!showStart && !showEnd) {
       if (widget.fixedSide == FixedSide.start) {
@@ -212,7 +210,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
       } else {
         showStart = true;
       }
-    } else if (showStart && showEnd && contentWidth < min) {
+    } else if (showStart && showEnd && contentWidth < minTwoSideWidth) {
       if (widget.fixedSide == FixedSide.start) {
         showEnd = true;
         showStart = false;
@@ -328,44 +326,50 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                       : showEnd
                           ? 0 // FixedSide.end & !showStart & showEnd
                           : null, // FixedSide.end & !showStart & !showEnd
-              child: _buildArrow(contentWidth, min),
+              child: _buildArrow(contentWidth, minTwoSideWidth),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildArrow(double contentWidth, double min) {
-    return Container(
-      width: 120,
-      height: 30,
-      decoration: BoxDecoration(
-        color: widget.arrowButtonBackgroundColor,
-        // Màu nền xung quanh icon
-        shape: BoxShape.rectangle,
-        // Hình dạng hình vuông
-        borderRadius: BorderRadius.circular(2),
-        // Điều chỉnh góc bo cho hình vuông
-        border: Border.all(
-          // Thêm đường viền
-          color: Colors.grey.shade300, // Màu của đường viền là màu xám (grey)
-          width: 1.0, // Độ rộng của đường viền
-        ),
-      ),
-      child: Material(
-        child: InkWell(
-          child: Icon(
-            canExpandLeftMore() ? Icons.arrow_forward : Icons.arrow_back,
-            size: iconSize,
-            color: Colors.black,
+  Widget _buildArrow(double contentWidth, double minTwoSideWidth) {
+    return SizeMeasureWidget(
+      onSizeMeasured: (Size value) {
+        buttonContainerWidth = value.width;
+        buttonContainerHeight = value.height;
+      },
+      child: Container(
+        width: 20,
+        height: 30,
+        decoration: BoxDecoration(
+          color: widget.arrowButtonBackgroundColor,
+          // Màu nền xung quanh icon
+          shape: BoxShape.rectangle,
+          // Hình dạng hình vuông
+          borderRadius: BorderRadius.circular(2),
+          // Điều chỉnh góc bo cho hình vuông
+          border: Border.all(
+            // Thêm đường viền
+            color: Colors.grey.shade300,
+            width: 1.0, // Độ rộng của đường viền
           ),
-          onTap: () {
-            if (canExpandLeftMore()) {
-              expandLeft(contentWidth, min);
-            } else {
-              expandRight(contentWidth, min);
-            }
-          },
+        ),
+        child: Material(
+          child: InkWell(
+            child: Icon(
+              canExpandLeftMore() ? Icons.arrow_forward : Icons.arrow_back,
+              size: iconSize,
+              color: Colors.black,
+            ),
+            onTap: () {
+              if (canExpandLeftMore()) {
+                expandLeft(contentWidth, minTwoSideWidth);
+              } else {
+                expandRight(contentWidth, minTwoSideWidth);
+              }
+            },
+          ),
         ),
       ),
     );
