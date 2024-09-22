@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           initiallyCollapsed: true,
           hideArrowIfTwoSidesVisible: false,
           autoShowTwoSidesIfPossible: true,
-          showVerticalDivider: false,
+          showVerticalDivider: true,
           end: SizedBox(
             height: 300,
             child: Text("End"),
