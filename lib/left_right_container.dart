@@ -22,6 +22,7 @@ class LeftRightContainer extends StatefulWidget {
   final bool autoShowTwoSidesIfPossible;
   final double spacing;
   final Color arrowButtonBackgroundColor;
+  final Color arrowIconColor;
   final Color? startBackgroundColor;
   final Color? endBackgroundColor;
   final Color? backgroundColor;
@@ -44,6 +45,7 @@ class LeftRightContainer extends StatefulWidget {
     this.showVerticalDivider = true,
     this.autoShowTwoSidesIfPossible = false,
     this.arrowButtonBackgroundColor = Colors.white,
+    this.arrowIconColor = Colors.black,
     this.startBackgroundColor,
     this.endBackgroundColor,
     this.backgroundColor,
@@ -418,7 +420,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   Widget _buildArrow(double contentWidth, double minTwoSideWidth) {
     return _SizeMeasureWidget(
       onSizeMeasured: (Size value) {
-        print(">>>>>>>>>> $value");
         arrowContainerWidth = value.width;
         arrowContainerHeight = value.height;
         setState(() {});
@@ -428,15 +429,11 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         height: 30,
         decoration: BoxDecoration(
           color: widget.arrowButtonBackgroundColor,
-          // Màu nền xung quanh icon
           shape: BoxShape.rectangle,
-          // Hình dạng hình vuông
           borderRadius: BorderRadius.circular(2),
-          // Điều chỉnh góc bo cho hình vuông
           border: Border.all(
-            // Thêm đường viền
             color: Colors.grey.shade300,
-            width: 1.0, // Độ rộng của đường viền
+            width: 1.0,
           ),
         ),
         child: Material(
@@ -447,7 +444,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                   ? Icons.arrow_forward
                   : Icons.arrow_back,
               size: iconSize,
-              color: Colors.black,
+              color: widget.arrowIconColor,
             ),
             onTap: () {
               if (canExpandStartMore()) {
