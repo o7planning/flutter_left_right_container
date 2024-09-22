@@ -17,7 +17,9 @@ class LeftRightContainer extends StatefulWidget {
   final double? minHeight;
   final double minSideWidth;
   final FixedSide fixedSide;
-  final bool hideDividerInLargeSize;
+  final bool hideArrowIfTwoSidesVisible;
+  final bool showVerticalDivider;
+  final bool autoShowTwoSidesIfPossible;
   final double spacing;
   final Color arrowButtonBackgroundColor;
   final Color? startBackgroundColor;
@@ -35,7 +37,9 @@ class LeftRightContainer extends StatefulWidget {
     this.minHeight,
     this.fixedSide = FixedSide.start,
     this.initiallyCollapsed = false,
-    this.hideDividerInLargeSize = false,
+    this.hideArrowIfTwoSidesVisible = false,
+    this.showVerticalDivider = true,
+    this.autoShowTwoSidesIfPossible = false,
     this.arrowButtonBackgroundColor = Colors.white,
     this.startBackgroundColor,
     this.endBackgroundColor,
@@ -51,12 +55,14 @@ class LeftRightContainer extends StatefulWidget {
 class _LeftRightContainerState extends State<LeftRightContainer> {
   bool showStart = true;
   bool showEnd = true;
-  double buttonContainerWidth = 18;
-  double buttonContainerHeight = 22;
+  double buttonContainerWidth = 20;
+  double buttonContainerHeight = 30;
   static const double iconSize = 14;
 
   double? leftHeight;
   double? rightHeight;
+
+  bool collapsedByUser = false;
 
   static const double maxHeight = 10000;
 
@@ -112,47 +118,51 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
-  void expandLeft(double contentWidth, double min) {
+  void _expandLeft(double contentWidth, double minTwoSideWidth) {
     if (!canExpandLeftMore()) {
       return;
     }
     setState(() {
-      if (contentWidth < min) {
+      if (contentWidth < minTwoSideWidth) {
         showStart = true;
         showEnd = false;
       } else {
         if (!showStart) {
           showStart = true;
           showEnd = true;
+          collapsedByUser = false;
         } else {
           showStart = true;
           showEnd = false;
+          collapsedByUser = true;
         }
       }
     });
   }
 
-  void expandRight(double contentWidth, double min) {
+  void _expandRight(double contentWidth, double minTwoSideWidth) {
     if (!canExpandRightMore()) {
       return;
     }
     setState(() {
-      if (contentWidth < min) {
+      if (contentWidth < minTwoSideWidth) {
         showEnd = true;
         showStart = false;
       } else {
         if (!showEnd) {
           showEnd = true;
           showStart = true;
+          collapsedByUser = false;
         } else {
           showEnd = true;
           showStart = false;
+          collapsedByUser = true;
         }
       }
     });
   }
 
-  double _leftWidth(double contentWidth) {
+  double _startWidth(double contentWidth) {
     if (widget.fixedSide == FixedSide.start) {
       if (showStart && showEnd) {
         return widget.fixedSizeWidth;
@@ -174,7 +184,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
-  double _rightWidth(double contentWidth) {
+  double _endWidth(double contentWidth) {
     if (widget.fixedSide == FixedSide.end) {
       if (showStart && showEnd) {
         return widget.fixedSizeWidth;
@@ -219,6 +229,12 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         showEnd = false;
       }
     }
+    if (!collapsedByUser &&
+        widget.autoShowTwoSidesIfPossible &&
+        contentWidth >= minTwoSideWidth) {
+      showEnd = true;
+      showStart = true;
+    }
     //
     var arrowPosition =
         widget.fixedSizeWidth + widget.spacing / 2 - buttonContainerWidth / 2;
@@ -232,7 +248,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               left: 0,
               top: 0,
               child: Container(
-                width: _leftWidth(contentWidth),
+                width: _startWidth(contentWidth),
                 height: maxHeight,
                 color: widget.startBackgroundColor,
               ),
@@ -242,7 +258,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               top: 0,
               right: 0,
               child: Container(
-                width: _rightWidth(contentWidth),
+                width: _endWidth(contentWidth),
                 height: maxHeight,
                 color: widget.endBackgroundColor,
               ),
@@ -272,7 +288,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                       ),
             ],
           ),
-          if (showEnd && showStart)
+          if (widget.showVerticalDivider && showEnd && showStart)
             Positioned(
               top: 0,
               right: widget.fixedSide == FixedSide.start
@@ -293,7 +309,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                 ),
               ),
             ),
-          if (!(widget.hideDividerInLargeSize && showStart && showEnd))
+          if (!(widget.hideArrowIfTwoSidesVisible && showStart && showEnd))
             Positioned(
               top: widget.arrowTopPosition,
               right: widget.fixedSide == FixedSide.start
@@ -336,8 +352,12 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   Widget _buildArrow(double contentWidth, double minTwoSideWidth) {
     return SizeMeasureWidget(
       onSizeMeasured: (Size value) {
+        print(">>>>>>>>>> $value");
         buttonContainerWidth = value.width;
         buttonContainerHeight = value.height;
+        setState(() {
+
+        });
       },
       child: Container(
         width: 20,
@@ -364,9 +384,9 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
             ),
             onTap: () {
               if (canExpandLeftMore()) {
-                expandLeft(contentWidth, minTwoSideWidth);
+                _expandLeft(contentWidth, minTwoSideWidth);
               } else {
-                expandRight(contentWidth, minTwoSideWidth);
+                _expandRight(contentWidth, minTwoSideWidth);
               }
             },
           ),

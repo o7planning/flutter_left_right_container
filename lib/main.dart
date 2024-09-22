@@ -39,11 +39,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Padding(
+      body: const Padding(
         padding: EdgeInsets.all(20),
         child: LeftRightContainer(
           fixedSizeWidth: 200,
           initiallyCollapsed: true,
+          hideArrowIfTwoSidesVisible: false,
+          autoShowTwoSidesIfPossible: true,
+          showVerticalDivider: false,
           end: SizedBox(
             height: 300,
             child: Text("End"),
@@ -53,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text("Start"),
           ),
           minSideWidth: 400,
-          spacing: 20,
+          spacing: 10,
           arrowTopPosition: 30,
           backgroundColor: Colors.yellow,
           startBackgroundColor: Colors.red,
