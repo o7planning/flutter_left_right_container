@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(20),
         child: LeftRightContainer(
           fixedSizeWidth: 200,
+          initiallyCollapsed: false,
           end: SizedBox(
             height: 300,
             child: Text("End"),

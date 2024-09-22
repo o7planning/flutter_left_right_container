@@ -62,6 +62,15 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   @override
   void initState() {
     super.initState();
+    if (widget.initiallyCollapsed) {
+      if (widget.fixedSide == FixedSide.start) {
+        showStart = false;
+        showEnd = true;
+      } else {
+        showStart = true;
+        showEnd = false;
+      }
+    }
   }
 
   @override
@@ -288,33 +297,33 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
             right: widget.fixedSide == FixedSide.start
                 ? showStart
                     ? showEnd
-                        ? null // FixSide.left & showLeft & showRight
-                        : 0 // FixSide.left & showLeft & !showRight
+                        ? null // FixedSide.start & showStart & showEnd
+                        : 0 // FixedSide.start & showStart & !showEnd
                     : showEnd
-                        ? null // FixSide.left & !showLeft & showRight
-                        : null // FixSide.left & !showLeft & !showRight
-                : showStart // FixSide.right
+                        ? null // FixedSide.start & !showStart & showEnd
+                        : null // FixedSide.start & !showStart & !showEnd
+                : showStart // FixedSide.end
                     ? showEnd
-                        ? dividerPosition // FixSide.right & showLeft & showRight
-                        : 0 // FixSide.right & showLeft & !showRight
+                        ? dividerPosition // FixedSide.end & showStart & showEnd
+                        : 0 // FixedSide.end & showStart & !showEnd
                     : showEnd
-                        ? null // FixSide.right & !showLeft & showRight
-                        : null, // FixSide.right & !showLeft & !showRight
+                        ? null // FixedSide.end & !showStart & showEnd
+                        : null, // FixedSide.end & !showStart & !showEnd
             left: widget.fixedSide == FixedSide.start
                 ? showStart
                     ? showEnd
-                        ? dividerPosition // FixSide.left & showLeft & showRight
-                        : null // FixSide.left & showLeft & !showRight
+                        ? dividerPosition // FixedSide.start & showStart & showEnd
+                        : null // FixedSide.start & showStart & !showEnd
                     : showEnd
-                        ? 0 // FixSide.left & !showLeft & showRight
-                        : null // FixSide.left & !showLeft & !showRight
-                : showStart // FixSide.right
+                        ? 0 // FixedSide.start & !showStart & showEnd
+                        : null // FixedSide.start & !showStart & !showEnd
+                : showStart // FixedSide.end
                     ? showEnd
-                        ? null // FixSide.right & showLeft & showRight
-                        : null // FixSide.right & showLeft & !showRight
+                        ? null // FixedSide.end & showStart & showEnd
+                        : null // FixedSide.end & showStart & !showEnd
                     : showEnd
-                        ? 0 // FixSide.right & !showLeft & showRight
-                        : null, // FixSide.right & !showLeft & !showRight
+                        ? 0 // FixedSide.end & !showStart & showEnd
+                        : null, // FixedSide.end & !showStart & !showEnd
             child: _buildArrow(contentWidth, min),
           ),
       ],
