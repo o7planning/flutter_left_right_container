@@ -420,9 +420,10 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   Widget _buildArrow(double contentWidth, double minTwoSideWidth) {
     return _SizeMeasureWidget(
       onSizeMeasured: (Size value) {
-        arrowContainerWidth = value.width;
-        arrowContainerHeight = value.height;
-        setState(() {});
+        setState(() {
+          arrowContainerWidth = value.width;
+          arrowContainerHeight = value.height;
+        });
       },
       child: Container(
         width: 20,
