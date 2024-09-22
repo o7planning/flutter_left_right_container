@@ -20,8 +20,9 @@ class LeftRightContainer extends StatefulWidget {
   final bool hideDividerInLargeSize;
   final double spacing;
   final Color arrowButtonBackgroundColor;
-  final Color? leftBackgroundColor;
-  final Color? rightBackgroundColor;
+  final Color? startBackgroundColor;
+  final Color? endBackgroundColor;
+  final Color? backgroundColor;
 
   const LeftRightContainer({
     super.key,
@@ -37,8 +38,9 @@ class LeftRightContainer extends StatefulWidget {
     this.initiallyCollapsed = false,
     this.hideDividerInLargeSize = false,
     this.arrowButtonBackgroundColor = Colors.white,
-    this.leftBackgroundColor,
-    this.rightBackgroundColor,
+    this.startBackgroundColor,
+    this.endBackgroundColor,
+    this.backgroundColor,
   });
 
   @override
@@ -222,117 +224,120 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     //
     var dividerPosition =
         widget.fixedSizeWidth + widget.spacing / 2 - buttonContainerWidth / 2;
-    return Stack(
-      clipBehavior: Clip.hardEdge,
-      children: [
-        if (showStart)
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: _leftWidth(contentWidth),
-              height: maxHeight,
-              color: widget.leftBackgroundColor,
-            ),
-          ),
-        if (showEnd)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              width: _rightWidth(contentWidth),
-              height: maxHeight,
-              color: widget.rightBackgroundColor,
-            ),
-          ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            if (showStart)
-              widget.fixedSide == FixedSide.start && showEnd
-                  ? SizedBox(
-                      width: widget.fixedSizeWidth,
-                      child: widget.start,
-                    )
-                  : Expanded(
-                      child: widget.start,
-                    ),
-            if (showStart && showEnd) SizedBox(width: widget.spacing),
-            if (showEnd)
-              widget.fixedSide == FixedSide.end && showStart
-                  ? SizedBox(
-                      width: widget.fixedSizeWidth,
-                      child: widget.end,
-                    )
-                  : Expanded(
-                      child: widget.end,
-                    ),
-          ],
-        ),
-        if (showEnd && showStart)
-          Positioned(
-            top: 0,
-            right: widget.fixedSide == FixedSide.start
-                ? null
-                : showEnd
-                    ? widget.fixedSizeWidth
-                    : 0,
-            left: widget.fixedSide == FixedSide.end
-                ? null
-                : showStart
-                    ? widget.fixedSizeWidth
-                    : 0,
-            child: SizedBox(
-              width: widget.spacing,
-              height: maxHeight,
-              child: const Center(
-                child: VerticalDivider(),
+    return Container(
+      color: widget.backgroundColor,
+      child: Stack(
+        clipBehavior: Clip.hardEdge,
+        children: [
+          if (showStart)
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: _leftWidth(contentWidth),
+                height: maxHeight,
+                color: widget.startBackgroundColor,
               ),
             ),
+          if (showEnd)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                width: _rightWidth(contentWidth),
+                height: maxHeight,
+                color: widget.endBackgroundColor,
+              ),
+            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (showStart)
+                widget.fixedSide == FixedSide.start && showEnd
+                    ? SizedBox(
+                        width: widget.fixedSizeWidth,
+                        child: widget.start,
+                      )
+                    : Expanded(
+                        child: widget.start,
+                      ),
+              if (showStart && showEnd) SizedBox(width: widget.spacing),
+              if (showEnd)
+                widget.fixedSide == FixedSide.end && showStart
+                    ? SizedBox(
+                        width: widget.fixedSizeWidth,
+                        child: widget.end,
+                      )
+                    : Expanded(
+                        child: widget.end,
+                      ),
+            ],
           ),
-        if (!(widget.hideDividerInLargeSize && showStart && showEnd))
-          Positioned(
-            top: widget.arrowTopPosition,
-            right: widget.fixedSide == FixedSide.start
-                ? showStart
-                    ? showEnd
-                        ? null // FixedSide.start & showStart & showEnd
-                        : 0 // FixedSide.start & showStart & !showEnd
-                    : showEnd
-                        ? null // FixedSide.start & !showStart & showEnd
-                        : null // FixedSide.start & !showStart & !showEnd
-                : showStart // FixedSide.end
-                    ? showEnd
-                        ? dividerPosition // FixedSide.end & showStart & showEnd
-                        : 0 // FixedSide.end & showStart & !showEnd
-                    : showEnd
-                        ? null // FixedSide.end & !showStart & showEnd
-                        : null, // FixedSide.end & !showStart & !showEnd
-            left: widget.fixedSide == FixedSide.start
-                ? showStart
-                    ? showEnd
-                        ? dividerPosition // FixedSide.start & showStart & showEnd
-                        : null // FixedSide.start & showStart & !showEnd
-                    : showEnd
-                        ? 0 // FixedSide.start & !showStart & showEnd
-                        : null // FixedSide.start & !showStart & !showEnd
-                : showStart // FixedSide.end
-                    ? showEnd
-                        ? null // FixedSide.end & showStart & showEnd
-                        : null // FixedSide.end & showStart & !showEnd
-                    : showEnd
-                        ? 0 // FixedSide.end & !showStart & showEnd
-                        : null, // FixedSide.end & !showStart & !showEnd
-            child: _buildArrow(contentWidth, min),
-          ),
-      ],
+          if (showEnd && showStart)
+            Positioned(
+              top: 0,
+              right: widget.fixedSide == FixedSide.start
+                  ? null
+                  : showEnd
+                      ? widget.fixedSizeWidth
+                      : 0,
+              left: widget.fixedSide == FixedSide.end
+                  ? null
+                  : showStart
+                      ? widget.fixedSizeWidth
+                      : 0,
+              child: SizedBox(
+                width: widget.spacing,
+                height: maxHeight,
+                child: const Center(
+                  child: VerticalDivider(),
+                ),
+              ),
+            ),
+          if (!(widget.hideDividerInLargeSize && showStart && showEnd))
+            Positioned(
+              top: widget.arrowTopPosition,
+              right: widget.fixedSide == FixedSide.start
+                  ? showStart
+                      ? showEnd
+                          ? null // FixedSide.start & showStart & showEnd
+                          : 0 // FixedSide.start & showStart & !showEnd
+                      : showEnd
+                          ? null // FixedSide.start & !showStart & showEnd
+                          : null // FixedSide.start & !showStart & !showEnd
+                  : showStart // FixedSide.end
+                      ? showEnd
+                          ? dividerPosition // FixedSide.end & showStart & showEnd
+                          : 0 // FixedSide.end & showStart & !showEnd
+                      : showEnd
+                          ? null // FixedSide.end & !showStart & showEnd
+                          : null, // FixedSide.end & !showStart & !showEnd
+              left: widget.fixedSide == FixedSide.start
+                  ? showStart
+                      ? showEnd
+                          ? dividerPosition // FixedSide.start & showStart & showEnd
+                          : null // FixedSide.start & showStart & !showEnd
+                      : showEnd
+                          ? 0 // FixedSide.start & !showStart & showEnd
+                          : null // FixedSide.start & !showStart & !showEnd
+                  : showStart // FixedSide.end
+                      ? showEnd
+                          ? null // FixedSide.end & showStart & showEnd
+                          : null // FixedSide.end & showStart & !showEnd
+                      : showEnd
+                          ? 0 // FixedSide.end & !showStart & showEnd
+                          : null, // FixedSide.end & !showStart & !showEnd
+              child: _buildArrow(contentWidth, min),
+            ),
+        ],
+      ),
     );
   }
 
   Widget _buildArrow(double contentWidth, double min) {
     return Container(
-      width: 20,
+      width: 120,
       height: 30,
       decoration: BoxDecoration(
         color: widget.arrowButtonBackgroundColor,

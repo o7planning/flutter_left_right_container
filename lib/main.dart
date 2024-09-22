@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(20),
         child: LeftRightContainer(
           fixedSizeWidth: 200,
-          initiallyCollapsed: false,
+          initiallyCollapsed: true,
           end: SizedBox(
             height: 300,
             child: Text("End"),
@@ -56,8 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
           minSideWidth: 400,
           spacing: 20,
           arrowTopPosition: 30,
-          leftBackgroundColor: Colors.red,
-          rightBackgroundColor: Colors.green,
+          backgroundColor: Colors.yellow,
+          startBackgroundColor: Colors.red,
+          endBackgroundColor: Colors.green,
         ),
       ),
     );
