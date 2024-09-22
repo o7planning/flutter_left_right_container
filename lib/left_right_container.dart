@@ -213,14 +213,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
-  Widget _start() {
-    return Text("Start --> start ${canExpandStartMore()}");
-  }
-
-  Widget _end() {
-    return Text("End -->  ${canExpandEndMore()}");
-  }
-
   Widget _buildStack(
     BuildContext context,
     double contentWidth,
@@ -290,15 +282,15 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
                         child: Padding(
-                            padding: widget.startPadding,
-                            child: _start() // widget.start,
-                            ),
+                          padding: widget.startPadding,
+                          child: widget.start,
+                        ),
                       )
                     : Expanded(
                         child: Padding(
-                            padding: widget.startPadding,
-                            child: _start() // widget.start,
-                            ),
+                          padding: widget.startPadding,
+                          child: widget.start,
+                        ),
                       ),
               if (showStart && showEnd) SizedBox(width: widget.spacing),
               if (showEnd)
@@ -306,15 +298,15 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
                         child: Padding(
-                            padding: widget.endPadding,
-                            child: _end() // widget.end,
-                            ),
+                          padding: widget.endPadding,
+                          child: widget.end,
+                        ),
                       )
                     : Expanded(
                         child: Padding(
-                            padding: widget.endPadding,
-                            child: _end() // widget.end,
-                            ),
+                          padding: widget.endPadding,
+                          child: widget.end,
+                        ),
                       ),
             ],
           ),
@@ -450,13 +442,10 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         child: Material(
           child: InkWell(
             child: Icon(
+              textDirection: _textDirection,
               canExpandStartMore() //
-                  ? _textDirection == TextDirection.ltr
-                      ? Icons.arrow_forward
-                      : Icons.arrow_back
-                  : _textDirection == TextDirection.ltr
-                      ? Icons.arrow_back
-                      : Icons.arrow_forward,
+                  ? Icons.arrow_forward
+                  : Icons.arrow_back,
               size: iconSize,
               color: Colors.black,
             ),

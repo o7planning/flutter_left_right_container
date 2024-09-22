@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Directionality(
+        // use this
+        textDirection: TextDirection.rtl, // set it to rtl
+        child: const MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
+      //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -41,8 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: const Padding(
         padding: EdgeInsets.all(20),
         child: LeftRightContainer(
-          textDirection: TextDirection.rtl,
-          fixedSide: FixedSide.start, 
+          // textDirection: TextDirection.rtl,
+          fixedSide: FixedSide.end,
           fixedSizeWidth: 200,
           initiallyCollapsed: true,
           hideArrowIfTwoSidesVisible: false,
