@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.yellow,
           startBackgroundColor: Colors.red,
           endBackgroundColor: Colors.green,
+          minHeight: 500,
         ),
       ),
     );

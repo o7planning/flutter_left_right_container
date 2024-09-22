@@ -25,6 +25,8 @@ class LeftRightContainer extends StatefulWidget {
   final Color? startBackgroundColor;
   final Color? endBackgroundColor;
   final Color? backgroundColor;
+  final EdgeInsets startPadding;
+  final EdgeInsets endPadding;
 
   const LeftRightContainer({
     super.key,
@@ -44,6 +46,8 @@ class LeftRightContainer extends StatefulWidget {
     this.startBackgroundColor,
     this.endBackgroundColor,
     this.backgroundColor,
+    this.startPadding = const EdgeInsets.all(10),
+    this.endPadding = const EdgeInsets.all(10),
   });
 
   @override
@@ -86,7 +90,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
       childBuilder: (
         BuildContext context,
         double contentWidth,
-        double contentHeight,
       ) {
         return ConstrainedBox(
           constraints: BoxConstraints(
@@ -95,7 +98,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           child: _buildStack(
             context,
             contentWidth,
-            contentHeight,
           ),
         );
       },
@@ -209,7 +211,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   Widget _buildStack(
     BuildContext context,
     double contentWidth,
-    double contentHeight,
   ) {
     double minTwoSideWidth =
         widget.fixedSizeWidth + widget.spacing + widget.minSideWidth;
@@ -271,20 +272,32 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                 widget.fixedSide == FixedSide.start && showEnd
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
-                        child: widget.start,
+                        child: Padding(
+                          padding: widget.startPadding,
+                          child: widget.start,
+                        ),
                       )
                     : Expanded(
-                        child: widget.start,
+                        child: Padding(
+                          padding: widget.startPadding,
+                          child: widget.start,
+                        ),
                       ),
               if (showStart && showEnd) SizedBox(width: widget.spacing),
               if (showEnd)
                 widget.fixedSide == FixedSide.end && showStart
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
-                        child: widget.end,
+                        child: Padding(
+                          padding: widget.endPadding,
+                          child: widget.end,
+                        ),
                       )
                     : Expanded(
-                        child: widget.end,
+                        child: Padding(
+                          padding: widget.endPadding,
+                          child: widget.end,
+                        ),
                       ),
             ],
           ),
@@ -355,9 +368,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         print(">>>>>>>>>> $value");
         buttonContainerWidth = value.width;
         buttonContainerHeight = value.height;
-        setState(() {
-
-        });
+        setState(() {});
       },
       child: Container(
         width: 20,
