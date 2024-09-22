@@ -1,20 +1,20 @@
 part of '../left_right_container.dart';
 
-class SizeMeasureWidget extends StatefulWidget {
+class _SizeMeasureWidget extends StatefulWidget {
   final Widget child;
   final ValueChanged<Size> onSizeMeasured;
 
-  const SizeMeasureWidget({
+  const _SizeMeasureWidget({
     super.key,
     required this.onSizeMeasured,
     required this.child,
   });
 
   @override
-  State<SizeMeasureWidget> createState() => _SizeMeasureWidgetState();
+  State<_SizeMeasureWidget> createState() => _SizeMeasureWidgetState();
 }
 
-class _SizeMeasureWidgetState extends State<SizeMeasureWidget> {
+class _SizeMeasureWidgetState extends State<_SizeMeasureWidget> {
   final GlobalKey _sizeKey = GlobalKey();
 
   @override

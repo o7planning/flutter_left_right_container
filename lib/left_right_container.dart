@@ -363,7 +363,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   }
 
   Widget _buildArrow(double contentWidth, double minTwoSideWidth) {
-    return SizeMeasureWidget(
+    return _SizeMeasureWidget(
       onSizeMeasured: (Size value) {
         print(">>>>>>>>>> $value");
         buttonContainerWidth = value.width;
