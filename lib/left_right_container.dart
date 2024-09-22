@@ -59,6 +59,7 @@ class LeftRightContainer extends StatefulWidget {
 }
 
 class _LeftRightContainerState extends State<LeftRightContainer> {
+  late TextDirection _textDirection;
   bool showStart = true;
   bool showEnd = true;
   double arrowContainerWidth = 20;
@@ -88,6 +89,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
 
   @override
   Widget build(BuildContext context) {
+    _textDirection = widget.textDirection ?? Directionality.of(context);
+    //
     return _KnowableSizeContainer(
       childBuilder: (
         BuildContext context,
@@ -106,7 +109,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     );
   }
 
-  bool canExpandLeftMore() {
+  bool canExpandStartMore() {
     if (widget.fixedSide == FixedSide.start) {
       return !showStart;
     } else {
@@ -114,7 +117,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
-  bool canExpandRightMore() {
+  bool canExpandEndMore() {
     if (widget.fixedSide == FixedSide.end) {
       return !showEnd;
     } else {
@@ -122,8 +125,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
-  void _expandLeft(double contentWidth, double minTwoSideWidth) {
-    if (!canExpandLeftMore()) {
+  void _expandStart(double contentWidth, double minTwoSideWidth) {
+    if (!canExpandStartMore()) {
       return;
     }
     setState(() {
@@ -144,8 +147,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     });
   }
 
-  void _expandRight(double contentWidth, double minTwoSideWidth) {
-    if (!canExpandRightMore()) {
+  void _expandEnd(double contentWidth, double minTwoSideWidth) {
+    if (!canExpandEndMore()) {
       return;
     }
     setState(() {
@@ -210,6 +213,14 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
   }
 
+  Widget _start() {
+    return Text("Start --> start ${canExpandStartMore()}");
+  }
+
+  Widget _end() {
+    return Text("End -->  ${canExpandEndMore()}");
+  }
+
   Widget _buildStack(
     BuildContext context,
     double contentWidth,
@@ -250,8 +261,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           if (showStart)
             Positioned(
               top: 0,
-              left: widget.textDirection == TextDirection.ltr ? 0 : null,
-              right: widget.textDirection == TextDirection.ltr ? null : 0,
+              left: _textDirection == TextDirection.ltr ? 0 : null,
+              right: _textDirection == TextDirection.ltr ? null : 0,
               child: Container(
                 width: _startWidth(contentWidth),
                 height: maxHeight,
@@ -261,8 +272,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           if (showEnd)
             Positioned(
               top: 0,
-              right: widget.textDirection == TextDirection.ltr ? 0 : null,
-              left: widget.textDirection == TextDirection.ltr ? null : 0,
+              right: _textDirection == TextDirection.ltr ? 0 : null,
+              left: _textDirection == TextDirection.ltr ? null : 0,
               child: Container(
                 width: _endWidth(contentWidth),
                 height: maxHeight,
@@ -270,7 +281,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               ),
             ),
           Row(
-            textDirection: widget.textDirection,
+            textDirection: _textDirection,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -279,15 +290,15 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
                         child: Padding(
-                          padding: widget.startPadding,
-                          child: widget.start,
-                        ),
+                            padding: widget.startPadding,
+                            child: _start() // widget.start,
+                            ),
                       )
                     : Expanded(
                         child: Padding(
-                          padding: widget.startPadding,
-                          child: widget.start,
-                        ),
+                            padding: widget.startPadding,
+                            child: _start() // widget.start,
+                            ),
                       ),
               if (showStart && showEnd) SizedBox(width: widget.spacing),
               if (showEnd)
@@ -295,22 +306,22 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                     ? SizedBox(
                         width: widget.fixedSizeWidth,
                         child: Padding(
-                          padding: widget.endPadding,
-                          child: widget.end,
-                        ),
+                            padding: widget.endPadding,
+                            child: _end() // widget.end,
+                            ),
                       )
                     : Expanded(
                         child: Padding(
-                          padding: widget.endPadding,
-                          child: widget.end,
-                        ),
+                            padding: widget.endPadding,
+                            child: _end() // widget.end,
+                            ),
                       ),
             ],
           ),
           if (widget.showVerticalDivider && showEnd && showStart)
             Positioned(
               top: 0,
-              right: widget.textDirection == TextDirection.ltr
+              right: _textDirection == TextDirection.ltr
                   ? widget.fixedSide == FixedSide.start
                       ? null
                       : showEnd
@@ -318,10 +329,10 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                           : 0
                   : widget.fixedSide == FixedSide.end // *******
                       ? null
-                      : showEnd
+                      : showStart
                           ? widget.fixedSizeWidth
                           : 0,
-              left: widget.textDirection == TextDirection.ltr
+              left: _textDirection == TextDirection.ltr
                   ? widget.fixedSide == FixedSide.end
                       ? null
                       : showStart
@@ -329,7 +340,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                           : 0
                   : widget.fixedSide == FixedSide.start // *******
                       ? null
-                      : showStart
+                      : showEnd
                           ? widget.fixedSizeWidth
                           : 0,
               child: SizedBox(
@@ -343,68 +354,68 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           if (!(widget.hideArrowIfTwoSidesVisible && showStart && showEnd))
             Positioned(
               top: widget.arrowTopPosition,
-              right: widget.textDirection == TextDirection.ltr
+              right: _textDirection == TextDirection.ltr
                   ? widget.fixedSide == FixedSide.start
                       ? showStart
                           ? showEnd
-                              ? null // FixedSide.start & showStart & showEnd
-                              : 0 // FixedSide.start & showStart & !showEnd
+                              ? null // LTR & FixedSide.start & showStart & showEnd
+                              : 0 // LTR & FixedSide.start & showStart & !showEnd
                           : showEnd
-                              ? null // FixedSide.start & !showStart & showEnd
-                              : null // FixedSide.start & !showStart & !showEnd
+                              ? null // LTR & FixedSide.start & !showStart & showEnd
+                              : null // LTR & FixedSide.start & !showStart & !showEnd
                       : showStart // FixedSide.end
                           ? showEnd
-                              ? arrowPosition // FixedSide.end & showStart & showEnd
-                              : 0 // FixedSide.end & showStart & !showEnd
+                              ? arrowPosition // LTR & FixedSide.end & showStart & showEnd
+                              : 0 // LTR & FixedSide.end & showStart & !showEnd
                           : showEnd
-                              ? null // FixedSide.end & !showStart & showEnd
+                              ? null // LTR & FixedSide.end & !showStart & showEnd
                               : null
-                  : widget.fixedSide == FixedSide.end // ****
+                  : widget.fixedSide == FixedSide.start // ************
                       ? showStart
                           ? showEnd
-                              ? null // FixedSide.start & showStart & showEnd
-                              : 0 // FixedSide.start & showStart & !showEnd
+                              ? arrowPosition // RTL & FixedSide.start & showStart & showEnd
+                              : null // RTL & FixedSide.start & showStart & !showEnd
                           : showEnd
-                              ? null // FixedSide.start & !showStart & showEnd
-                              : null // FixedSide.start & !showStart & !showEnd
+                              ? 0 // RTL & FixedSide.start & !showStart & showEnd
+                              : null // RTL & FixedSide.start & !showStart & !showEnd
                       : showStart // FixedSide.end
                           ? showEnd
-                              ? arrowPosition // FixedSide.end & showStart & showEnd
-                              : 0 // FixedSide.end & showStart & !showEnd
+                              ? null // RTL & FixedSide.end & showStart & showEnd
+                              : null // RTL & FixedSide.end & showStart & !showEnd
                           : showEnd
-                              ? null // FixedSide.end & !showStart & showEnd
-                              : null, // FixedSide.end & !showStart & !showEnd
-              left: widget.textDirection == TextDirection.ltr
+                              ? 0 // RTL & FixedSide.end & !showStart & showEnd
+                              : null, // RTL & FixedSide.end & !showStart & !showEnd
+              left: _textDirection == TextDirection.ltr
                   ? widget.fixedSide == FixedSide.start
                       ? showStart
                           ? showEnd
-                              ? arrowPosition // FixedSide.start & showStart & showEnd
-                              : null // FixedSide.start & showStart & !showEnd
+                              ? arrowPosition // LTF & FixedSide.start & showStart & showEnd
+                              : null // LTF & FixedSide.start & showStart & !showEnd
                           : showEnd
-                              ? 0 // FixedSide.start & !showStart & showEnd
-                              : null // FixedSide.start & !showStart & !showEnd
+                              ? 0 // LTF & FixedSide.start & !showStart & showEnd
+                              : null // LTF & FixedSide.start & !showStart & !showEnd
                       : showStart // FixedSide.end
                           ? showEnd
-                              ? null // FixedSide.end & showStart & showEnd
-                              : null // FixedSide.end & showStart & !showEnd
+                              ? null // LTF & FixedSide.end & showStart & showEnd
+                              : null // LTF & FixedSide.end & showStart & !showEnd
                           : showEnd
-                              ? 0 // FixedSide.end & !showStart & showEnd
+                              ? 0 // LTF & FixedSide.end & !showStart & showEnd
                               : null
-                  : widget.fixedSide == FixedSide.end
+                  : widget.fixedSide == FixedSide.start // *******
                       ? showStart
                           ? showEnd
-                              ? arrowPosition // FixedSide.start & showStart & showEnd
-                              : null // FixedSide.start & showStart & !showEnd
+                              ? null // RTL & FixedSide.start & showStart & showEnd
+                              : 0 // RTL & FixedSide.start & showStart & !showEnd
                           : showEnd
-                              ? 0 // FixedSide.start & !showStart & showEnd
-                              : null // FixedSide.start & !showStart & !showEnd
+                              ? null // RTL & FixedSide.start & !showStart & showEnd
+                              : null // RTL & FixedSide.start & !showStart & !showEnd
                       : showStart // FixedSide.end
                           ? showEnd
-                              ? null // FixedSide.end & showStart & showEnd
-                              : null // FixedSide.end & showStart & !showEnd
+                              ? arrowPosition // RTL & FixedSide.end & showStart & showEnd
+                              : 0 // RTL & FixedSide.end & showStart & !showEnd
                           : showEnd
-                              ? 0 // FixedSide.end & !showStart & showEnd
-                              : null, // FixedSide.end & !showStart & !showEnd
+                              ? null // RTL & FixedSide.end & !showStart & showEnd
+                              : null, // RTL & FixedSide.end & !showStart & !showEnd
               child: _buildArrow(contentWidth, minTwoSideWidth),
             ),
         ],
@@ -439,15 +450,21 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         child: Material(
           child: InkWell(
             child: Icon(
-              canExpandLeftMore() ? Icons.arrow_forward : Icons.arrow_back,
+              canExpandStartMore() //
+                  ? _textDirection == TextDirection.ltr
+                      ? Icons.arrow_forward
+                      : Icons.arrow_back
+                  : _textDirection == TextDirection.ltr
+                      ? Icons.arrow_back
+                      : Icons.arrow_forward,
               size: iconSize,
               color: Colors.black,
             ),
             onTap: () {
-              if (canExpandLeftMore()) {
-                _expandLeft(contentWidth, minTwoSideWidth);
+              if (canExpandStartMore()) {
+                _expandStart(contentWidth, minTwoSideWidth);
               } else {
-                _expandRight(contentWidth, minTwoSideWidth);
+                _expandEnd(contentWidth, minTwoSideWidth);
               }
             },
           ),

@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(20),
         child: LeftRightContainer(
           textDirection: TextDirection.rtl,
-          fixedSide: FixedSide.start,
+          fixedSide: FixedSide.start, 
           fixedSizeWidth: 200,
           initiallyCollapsed: true,
           hideArrowIfTwoSidesVisible: false,
