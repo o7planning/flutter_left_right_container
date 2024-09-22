@@ -222,7 +222,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
       }
     }
     //
-    var dividerPosition =
+    var arrowPosition =
         widget.fixedSizeWidth + widget.spacing / 2 - buttonContainerWidth / 2;
     return Container(
       color: widget.backgroundColor,
@@ -308,7 +308,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                           : null // FixedSide.start & !showStart & !showEnd
                   : showStart // FixedSide.end
                       ? showEnd
-                          ? dividerPosition // FixedSide.end & showStart & showEnd
+                          ? arrowPosition // FixedSide.end & showStart & showEnd
                           : 0 // FixedSide.end & showStart & !showEnd
                       : showEnd
                           ? null // FixedSide.end & !showStart & showEnd
@@ -316,7 +316,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               left: widget.fixedSide == FixedSide.start
                   ? showStart
                       ? showEnd
-                          ? dividerPosition // FixedSide.start & showStart & showEnd
+                          ? arrowPosition // FixedSide.start & showStart & showEnd
                           : null // FixedSide.start & showStart & !showEnd
                       : showEnd
                           ? 0 // FixedSide.start & !showStart & showEnd
