@@ -27,6 +27,7 @@ class LeftRightContainer extends StatefulWidget {
   final Color? backgroundColor;
   final EdgeInsets startPadding;
   final EdgeInsets endPadding;
+  final TextDirection? textDirection;
 
   const LeftRightContainer({
     super.key,
@@ -48,6 +49,7 @@ class LeftRightContainer extends StatefulWidget {
     this.backgroundColor,
     this.startPadding = const EdgeInsets.all(10),
     this.endPadding = const EdgeInsets.all(10),
+    this.textDirection,
   });
 
   @override
@@ -265,6 +267,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               ),
             ),
           Row(
+            textDirection: widget.textDirection,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
