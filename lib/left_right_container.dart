@@ -61,8 +61,8 @@ class LeftRightContainer extends StatefulWidget {
 class _LeftRightContainerState extends State<LeftRightContainer> {
   bool showStart = true;
   bool showEnd = true;
-  double buttonContainerWidth = 20;
-  double buttonContainerHeight = 30;
+  double arrowContainerWidth = 20;
+  double arrowContainerHeight = 30;
   static const double iconSize = 14;
 
   double? leftHeight;
@@ -240,7 +240,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     }
     //
     var arrowPosition =
-        widget.fixedSizeWidth + widget.spacing / 2 - buttonContainerWidth / 2;
+        widget.fixedSizeWidth + widget.spacing / 2 - arrowContainerWidth / 2;
+    //
     return Container(
       color: widget.backgroundColor,
       child: Stack(
@@ -369,8 +370,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     return _SizeMeasureWidget(
       onSizeMeasured: (Size value) {
         print(">>>>>>>>>> $value");
-        buttonContainerWidth = value.width;
-        buttonContainerHeight = value.height;
+        arrowContainerWidth = value.width;
+        arrowContainerHeight = value.height;
         setState(() {});
       },
       child: Container(
