@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 
+part '_parts/_fixed_side.dart';
 part '_parts/_knowable_size_container.dart';
 part '_parts/_size_measure_widget.dart';
-
-enum FixedSide {
-  start,
-  end;
-}
 
 class LeftRightContainer extends StatefulWidget {
   final double arrowTopPosition;
@@ -35,9 +31,9 @@ class LeftRightContainer extends StatefulWidget {
     this.spacing = 0,
     this.arrowTopPosition = 0,
     required this.fixedSizeWidth,
+    required this.minSideWidth,
     required this.end,
     required this.start,
-    required this.minSideWidth,
     this.minHeight,
     this.fixedSide = FixedSide.start,
     this.initiallyCollapsed = false,
@@ -93,7 +89,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   Widget build(BuildContext context) {
     _textDirection = widget.textDirection ?? Directionality.of(context);
     //
-    return _KnowableSizeContainer(
+    return _KnowableWidthContainer(
       childBuilder: (
         BuildContext context,
         double contentWidth,

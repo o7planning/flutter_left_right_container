@@ -1,12 +1,12 @@
 part of '../left_right_container.dart';
 
-class _KnowableSizeContainer extends StatelessWidget {
+class _KnowableWidthContainer extends StatelessWidget {
   final Widget Function(
     BuildContext context,
     double contentWidth,
   ) childBuilder;
 
-  const _KnowableSizeContainer({
+  const _KnowableWidthContainer({
     required this.childBuilder,
   });
 
