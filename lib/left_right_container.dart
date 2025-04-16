@@ -46,7 +46,7 @@ class LeftRightContainer extends StatefulWidget {
     this.endBackgroundColor,
     this.backgroundColor,
     this.startPadding = const EdgeInsets.all(10),
-    this.endPadding = const EdgeInsets.all(10),
+    this.endPadding = const EdgeInsets.all(0),
     this.textDirection,
   });
 
