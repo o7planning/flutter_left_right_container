@@ -5,7 +5,6 @@ class _SizeMeasureWidget extends StatefulWidget {
   final ValueChanged<Size> onSizeMeasured;
 
   const _SizeMeasureWidget({
-    super.key,
     required this.onSizeMeasured,
     required this.child,
   });
