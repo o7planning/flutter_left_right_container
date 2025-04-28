@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
             child: Text("End"),
           ),
           start: SizedBox(
-            height: 400,
+            height: 300,
             child: Text("Start"),
           ),
           minSideWidth: 400,
