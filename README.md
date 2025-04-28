@@ -27,6 +27,6 @@ LeftRightContainer(
 ),
 ```
 
-![](https://raw.githubusercontent.com/o7planning/flutter_left_right_container/refs/heads/main/docs/images/pic1.gif)
+![](https://raw.githubusercontent.com/o7planning/flutter_left_right_container/refs/heads/main/doc/images/pic1.gif)
 
-![](https://raw.githubusercontent.com/o7planning/flutter_left_right_container/refs/heads/main/docs/images/pic2.gif)
+![](https://raw.githubusercontent.com/o7planning/flutter_left_right_container/refs/heads/main/doc/images/pic2.gif)
