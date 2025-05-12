@@ -1,4 +1,4 @@
-part of '../left_right_container.dart';
+part of '../../left_right_container.dart';
 
 class _KnowableWidthContainer extends StatelessWidget {
   final Widget Function(

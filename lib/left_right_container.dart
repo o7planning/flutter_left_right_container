@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-part '_parts/_fixed_side.dart';
-part '_parts/_knowable_size_container.dart';
-part '_parts/_size_measure_widget.dart';
+part 'src/_parts/_fixed_side.dart';
+part 'src/_parts/_knowable_size_container.dart';
+part 'src/_parts/_size_measure_widget.dart';
 
 class LeftRightContainer extends StatefulWidget {
   final double arrowTopPosition;

@@ -1,4 +1,4 @@
-part of '../left_right_container.dart';
+part of '../../left_right_container.dart';
 
 class _SizeMeasureWidget extends StatefulWidget {
   final Widget child;
