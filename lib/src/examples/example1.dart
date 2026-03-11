@@ -49,21 +49,16 @@ class MyHomePage extends StatelessWidget {
           hideArrowIfTwoSidesVisible: false,
           autoShowTwoSidesIfPossible: true,
           showVerticalDivider: true,
-          end: SizedBox(
-            height: 300,
-            child: Text("End"),
-          ),
-          start: SizedBox(
-            height: 300,
-            child: Text("Start"),
-          ),
+          end: SizedBox(height: 300, child: Text("End")),
+          start: SizedBox(height: 300, child: Text("Start")),
           minSideWidth: 400,
           spacing: 10,
           arrowTopPosition: 30,
-          backgroundColor: Colors.yellow,
-          startBackgroundColor: Colors.red,
-          endBackgroundColor: Colors.green,
-          minHeight: 300,
+          style: LeftRightContainerStyle(
+            backgroundColor: Colors.yellow,
+            startBackgroundColor: Colors.red,
+            endBackgroundColor: Colors.green,
+          ),
         ),
       ),
     );

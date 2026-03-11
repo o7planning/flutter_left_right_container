@@ -4,10 +4,7 @@ class _SizeMeasureWidget extends StatefulWidget {
   final Widget child;
   final ValueChanged<Size> onSizeMeasured;
 
-  const _SizeMeasureWidget({
-    required this.onSizeMeasured,
-    required this.child,
-  });
+  const _SizeMeasureWidget({required this.onSizeMeasured, required this.child});
 
   @override
   State<_SizeMeasureWidget> createState() => _SizeMeasureWidgetState();
@@ -18,10 +15,7 @@ class _SizeMeasureWidgetState extends State<_SizeMeasureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: _sizeKey,
-      child: widget.child,
-    );
+    return Container(key: _sizeKey, child: widget.child);
   }
 
   @override
