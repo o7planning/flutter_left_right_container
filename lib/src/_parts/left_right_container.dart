@@ -42,9 +42,11 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   @override
   void initState() {
     super.initState();
-    // Khởi tạo trạng thái đóng mở ban đầu
-    _showStart = !widget.initiallyCollapsed || widget.fixedSide == FixedSide.end;
-    _showEnd = !widget.initiallyCollapsed || widget.fixedSide == FixedSide.start;
+    // Initialize the initial expanded/collapsed state.
+    _showStart =
+        !widget.initiallyCollapsed || widget.fixedSide == FixedSide.end;
+    _showEnd =
+        !widget.initiallyCollapsed || widget.fixedSide == FixedSide.start;
   }
 
   @override
@@ -52,15 +54,17 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final contentWidth = constraints.maxWidth;
-        final minTwoSideWidth = widget.fixedSizeWidth + widget.spacing + widget.minSideWidth;
+        final minTwoSideWidth =
+            widget.fixedSizeWidth + widget.spacing + widget.minSideWidth;
 
-        // 1. Logic tự động hiển thị (Gọn gàng hơn)
+        // 1. Automatic display logic (More streamlined)
         if (!_collapsedByUser && widget.autoShowTwoSidesIfPossible) {
           if (contentWidth >= minTwoSideWidth) {
             _showStart = true;
             _showEnd = true;
           } else if (_showStart && _showEnd) {
-            // Nếu không đủ chỗ mà đang hiện cả 2, thì thu gọn bên không cố định
+            // If there isn't enough space and both are currently displayed,
+            // collapse the non-fixed side.
             _showStart = (widget.fixedSide == FixedSide.end);
             _showEnd = (widget.fixedSide == FixedSide.start);
           }
@@ -71,33 +75,49 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // 2. Main Content dùng Row/Expanded (Bản sắc của ông)
+              // 2. Main Content use Row/Expanded.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (_showStart) _buildPanel(
-                    child: widget.start,
-                    width: (_showStart && _showEnd && widget.fixedSide == FixedSide.start) ? widget.fixedSizeWidth : null,
-                    color: widget.style.startBackgroundColor,
-                    padding: widget.style.startPadding,
-                  ),
+                  if (_showStart)
+                    _buildPanel(
+                      child: widget.start,
+                      width:
+                          (_showStart &&
+                              _showEnd &&
+                              widget.fixedSide == FixedSide.start)
+                          ? widget.fixedSizeWidth
+                          : null,
+                      color: widget.style.startBackgroundColor,
+                      padding: widget.style.startPadding,
+                    ),
 
                   if (_showStart && _showEnd) ...[
-                    if (widget.showVerticalDivider) VerticalDivider(width: widget.spacing, thickness: 1),
-                    if (!widget.showVerticalDivider) SizedBox(width: widget.spacing),
+                    if (widget.showVerticalDivider)
+                      VerticalDivider(width: widget.spacing, thickness: 1),
+                    if (!widget.showVerticalDivider)
+                      SizedBox(width: widget.spacing),
                   ],
 
-                  if (_showEnd) _buildPanel(
-                    child: widget.end,
-                    width: (_showStart && _showEnd && widget.fixedSide == FixedSide.end) ? widget.fixedSizeWidth : null,
-                    color: widget.style.endBackgroundColor,
-                    padding: widget.style.endPadding,
-                  ),
+                  if (_showEnd)
+                    _buildPanel(
+                      child: widget.end,
+                      width:
+                          (_showStart &&
+                              _showEnd &&
+                              widget.fixedSide == FixedSide.end)
+                          ? widget.fixedSizeWidth
+                          : null,
+                      color: widget.style.endBackgroundColor,
+                      padding: widget.style.endPadding,
+                    ),
                 ],
               ),
 
               // 3. Arrow Toggle
-              if (!(widget.hideArrowIfTwoSidesVisible && _showStart && _showEnd))
+              if (!(widget.hideArrowIfTwoSidesVisible &&
+                  _showStart &&
+                  _showEnd))
                 _buildArrowButton(contentWidth, minTwoSideWidth),
             ],
           ),
@@ -106,13 +126,14 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     );
   }
 
-  // Widget dựng Panel chung để loại bỏ if-else lặp lại
-  Widget _buildPanel({required Widget child, double? width, Color? color, required EdgeInsets padding}) {
-    Widget content = Container(
-      color: color,
-      padding: padding,
-      child: child,
-    );
+  // Widget to build the General Panel to remove repeated if-else loops
+  Widget _buildPanel({
+    required Widget child,
+    double? width,
+    Color? color,
+    required EdgeInsets padding,
+  }) {
+    Widget content = Container(color: color, padding: padding, child: child);
 
     return width != null
         ? SizedBox(width: width, child: content)
@@ -120,12 +141,17 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   }
 
   Widget _buildArrowButton(double contentWidth, double minTwoSideWidth) {
-    // Tính toán vị trí đơn giản không dùng AnimatedPositioned
+    // Simple position calculation without using AnimatedPositioning
     double arrowLeft;
     if (_showStart && _showEnd) {
       arrowLeft = (widget.fixedSide == FixedSide.start)
-          ? (widget.fixedSizeWidth + widget.spacing / 2 - widget.style.arrowWidth / 2)
-          : (contentWidth - widget.fixedSizeWidth - widget.spacing / 2 - widget.style.arrowWidth / 2);
+          ? (widget.fixedSizeWidth +
+                widget.spacing / 2 -
+                widget.style.arrowWidth / 2)
+          : (contentWidth -
+                widget.fixedSizeWidth -
+                widget.spacing / 2 -
+                widget.style.arrowWidth / 2);
     } else {
       arrowLeft = _showStart ? (contentWidth - widget.style.arrowWidth) : 0;
     }
@@ -136,10 +162,14 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
       child: GestureDetector(
         onTap: () => setState(() {
           if (contentWidth < minTwoSideWidth) {
-            _showStart = !_showStart; _showEnd = !_showEnd;
+            _showStart = !_showStart;
+            _showEnd = !_showEnd;
           } else {
-            if (widget.fixedSide == FixedSide.start) _showStart = !_showStart;
-            else _showEnd = !_showEnd;
+            if (widget.fixedSide == FixedSide.start) {
+              _showStart = !_showStart;
+            } else {
+              _showEnd = !_showEnd;
+            }
             _collapsedByUser = !(_showStart && _showEnd);
           }
         }),
@@ -148,7 +178,8 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           height: widget.style.arrowHeight,
           decoration: BoxDecoration(
             color: widget.style.arrowButtonBackgroundColor,
-            borderRadius: widget.style.arrowBorderRadius ?? BorderRadius.circular(4),
+            borderRadius:
+                widget.style.arrowBorderRadius ?? BorderRadius.circular(4),
             border: Border.all(color: Colors.grey.shade300),
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
           ),
