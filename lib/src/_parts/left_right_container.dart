@@ -141,8 +141,9 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   }
 
   Widget _buildArrowButton(double contentWidth, double minTwoSideWidth) {
-    // Simple position calculation without using AnimatedPositioning
     double arrowLeft;
+    IconData iconData;
+
     if (_showStart && _showEnd) {
       arrowLeft = (widget.fixedSide == FixedSide.start)
           ? (widget.fixedSizeWidth +
@@ -155,7 +156,15 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     } else {
       arrowLeft = _showStart ? (contentWidth - widget.style.arrowWidth) : 0;
     }
-
+    if (_showStart && _showEnd) {
+      iconData = (widget.fixedSide == FixedSide.start)
+          ? Icons.chevron_left_rounded
+          : Icons.chevron_right_rounded;
+    } else {
+      iconData = (arrowLeft == 0)
+          ? Icons.chevron_right_rounded
+          : Icons.chevron_left_rounded;
+    }
     return Positioned(
       top: widget.arrowTopPosition,
       left: arrowLeft,
@@ -177,16 +186,26 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           width: widget.style.arrowWidth,
           height: widget.style.arrowHeight,
           decoration: BoxDecoration(
-            color: widget.style.arrowButtonBackgroundColor,
+            color: Theme.of(
+              context,
+            ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.8),
             borderRadius:
                 widget.style.arrowBorderRadius ?? BorderRadius.circular(4),
-            border: Border.all(color: Colors.grey.shade300),
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+            border: Border.all(
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Icon(
-            _showStart ? Icons.chevron_left : Icons.chevron_right,
-            size: 14,
-            color: widget.style.arrowIconColor,
+            iconData,
+            size: 18,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),
