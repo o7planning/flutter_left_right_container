@@ -6,8 +6,9 @@ class LeftRightContainerStyle {
   final Color? backgroundColor;
   final EdgeInsets startPadding;
   final EdgeInsets endPadding;
-  final Color arrowButtonBackgroundColor;
-  final Color arrowIconColor;
+
+  final Color? arrowButtonBackgroundColor;
+  final Color? arrowIconColor;
   final double arrowWidth;
   final double arrowHeight;
   final BorderRadius? arrowBorderRadius;
@@ -20,12 +21,12 @@ class LeftRightContainerStyle {
     this.backgroundColor,
     this.startPadding = const EdgeInsets.all(5),
     this.endPadding = const EdgeInsets.all(5),
-    this.arrowButtonBackgroundColor = Colors.white,
-    this.arrowIconColor = Colors.black,
+    this.arrowButtonBackgroundColor,
+    this.arrowIconColor,
     this.arrowWidth = 20,
     this.arrowHeight = 30,
     this.arrowBorderRadius,
-    this.animationDuration = const Duration(milliseconds: 300),
-    this.animationCurve = Curves.easeInOut,
+    this.animationDuration = const Duration(milliseconds: 250),
+    this.animationCurve = Curves.fastOutSlowIn,
   });
 }

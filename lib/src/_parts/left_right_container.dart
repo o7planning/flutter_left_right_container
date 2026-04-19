@@ -42,7 +42,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   @override
   void initState() {
     super.initState();
-    // Initialize the initial expanded/collapsed state.
+    //
     _showStart =
         !widget.initiallyCollapsed || widget.fixedSide == FixedSide.end;
     _showEnd =
@@ -51,31 +51,40 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final Color globalBg =
+        widget.style.backgroundColor ?? FaColorUtils.background(context);
+    final Color startBg =
+        widget.style.startBackgroundColor ?? Colors.transparent;
+    final Color endBg = widget.style.endBackgroundColor ?? Colors.transparent;
+    final Color dividerColor = FaColorUtils.dividerColor(context);
+
+    final Color arrowBg =
+        widget.style.arrowButtonBackgroundColor ??
+        FaColorUtils.surfaceContainerHighest(context).withValues(alpha: 0.8);
+    final Color arrowIconColor =
+        widget.style.arrowIconColor ?? FaColorUtils.primaryHighlight(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final contentWidth = constraints.maxWidth;
         final minTwoSideWidth =
             widget.fixedSizeWidth + widget.spacing + widget.minSideWidth;
 
-        // 1. Automatic display logic (More streamlined)
         if (!_collapsedByUser && widget.autoShowTwoSidesIfPossible) {
           if (contentWidth >= minTwoSideWidth) {
             _showStart = true;
             _showEnd = true;
           } else if (_showStart && _showEnd) {
-            // If there isn't enough space and both are currently displayed,
-            // collapse the non-fixed side.
             _showStart = (widget.fixedSide == FixedSide.end);
             _showEnd = (widget.fixedSide == FixedSide.start);
           }
         }
 
         return Container(
-          color: widget.style.backgroundColor,
+          color: globalBg,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // 2. Main Content use Row/Expanded.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,13 +97,17 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                               widget.fixedSide == FixedSide.start)
                           ? widget.fixedSizeWidth
                           : null,
-                      color: widget.style.startBackgroundColor,
+                      color: startBg,
                       padding: widget.style.startPadding,
                     ),
 
                   if (_showStart && _showEnd) ...[
                     if (widget.showVerticalDivider)
-                      VerticalDivider(width: widget.spacing, thickness: 1),
+                      VerticalDivider(
+                        width: widget.spacing,
+                        thickness: 1,
+                        color: dividerColor,
+                      ),
                     if (!widget.showVerticalDivider)
                       SizedBox(width: widget.spacing),
                   ],
@@ -108,17 +121,23 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
                               widget.fixedSide == FixedSide.end)
                           ? widget.fixedSizeWidth
                           : null,
-                      color: widget.style.endBackgroundColor,
+                      color: endBg,
                       padding: widget.style.endPadding,
                     ),
                 ],
               ),
 
-              // 3. Arrow Toggle
+              // 4. ARROW TOGGLE BUTTON
               if (!(widget.hideArrowIfTwoSidesVisible &&
                   _showStart &&
                   _showEnd))
-                _buildArrowButton(contentWidth, minTwoSideWidth),
+                _buildArrowButton(
+                  contentWidth: contentWidth,
+                  minTwoSideWidth: minTwoSideWidth,
+                  backgroundColor: arrowBg,
+                  iconColor: arrowIconColor,
+                  dividerColor: dividerColor,
+                ),
             ],
           ),
         );
@@ -126,7 +145,6 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     );
   }
 
-  // Widget to build the General Panel to remove repeated if-else loops
   Widget _buildPanel({
     required Widget child,
     double? width,
@@ -140,7 +158,13 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         : Expanded(child: content);
   }
 
-  Widget _buildArrowButton(double contentWidth, double minTwoSideWidth) {
+  Widget _buildArrowButton({
+    required double contentWidth,
+    required double minTwoSideWidth,
+    required Color backgroundColor,
+    required Color iconColor,
+    required Color dividerColor,
+  }) {
     double arrowLeft;
     IconData iconData;
 
@@ -156,6 +180,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
     } else {
       arrowLeft = _showStart ? (contentWidth - widget.style.arrowWidth) : 0;
     }
+
     if (_showStart && _showEnd) {
       iconData = (widget.fixedSide == FixedSide.start)
           ? Icons.chevron_left_rounded
@@ -165,6 +190,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           ? Icons.chevron_right_rounded
           : Icons.chevron_left_rounded;
     }
+
     return Positioned(
       top: widget.arrowTopPosition,
       left: arrowLeft,
@@ -186,14 +212,10 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
           width: widget.style.arrowWidth,
           height: widget.style.arrowHeight,
           decoration: BoxDecoration(
-            color: Theme.of(
-              context,
-            ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.8),
+            color: backgroundColor,
             borderRadius:
                 widget.style.arrowBorderRadius ?? BorderRadius.circular(4),
-            border: Border.all(
-              color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
-            ),
+            border: Border.all(color: dividerColor.withValues(alpha: 0.5)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
@@ -202,11 +224,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
               ),
             ],
           ),
-          child: Icon(
-            iconData,
-            size: 18,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          child: Icon(iconData, size: 18, color: iconColor),
         ),
       ),
     );
