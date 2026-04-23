@@ -52,7 +52,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   @override
   Widget build(BuildContext context) {
     final Color globalBg =
-        widget.style.backgroundColor ?? FaColorUtils.background(context);
+        widget.style.backgroundColor ?? Colors.transparent; // FaColorUtils.background(context);
     final Color startBg =
         widget.style.startBackgroundColor ?? Colors.transparent;
     final Color endBg = widget.style.endBackgroundColor ?? Colors.transparent;
