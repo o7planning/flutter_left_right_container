@@ -62,7 +62,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         widget.style.arrowButtonBackgroundColor ??
         FaColorUtils.surfaceContainerHighest(context).withValues(alpha: 0.8);
     final Color arrowIconColor =
-        widget.style.arrowIconColor ?? FaColorUtils.primaryHighlight(context);
+        widget.style.arrowIconColor ?? FaColorUtils.primaryAction(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
