@@ -52,17 +52,22 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
   @override
   Widget build(BuildContext context) {
     final Color globalBg =
-        widget.style.backgroundColor ?? Colors.transparent; // FaColorUtils.background(context);
+        widget.style.backgroundColor ?? context.faColors.common.transparent;
     final Color startBg =
-        widget.style.startBackgroundColor ?? Colors.transparent;
-    final Color endBg = widget.style.endBackgroundColor ?? Colors.transparent;
-    final Color dividerColor = FaColorUtils.dividerColor(context);
+        widget.style.startBackgroundColor ??
+        context.faColors.common.transparent;
+    final Color endBg =
+        widget.style.endBackgroundColor ?? context.faColors.common.transparent;
+
+    final Color dividerColor = context.faColors.divider.subtle;
 
     final Color arrowBg =
         widget.style.arrowButtonBackgroundColor ??
-        FaColorUtils.surfaceContainerHighest(context).withValues(alpha: 0.8);
+        context.faColors.surface.emphasized.withValues(alpha: 0.9);
+
     final Color arrowIconColor =
-        widget.style.arrowIconColor ?? FaColorUtils.primaryAction(context);
+        widget.style.arrowIconColor ??
+        context.faColors.action.ink.primary;
 
     return LayoutBuilder(
       builder: (context, constraints) {
