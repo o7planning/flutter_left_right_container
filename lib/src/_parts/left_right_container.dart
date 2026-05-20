@@ -66,8 +66,7 @@ class _LeftRightContainerState extends State<LeftRightContainer> {
         context.faColors.surface.emphasized.withValues(alpha: 0.9);
 
     final Color arrowIconColor =
-        widget.style.arrowIconColor ??
-        context.faColors.action.ink.primary;
+        widget.style.arrowIconColor ?? context.faColors.action.ink.primary;
 
     return LayoutBuilder(
       builder: (context, constraints) {
