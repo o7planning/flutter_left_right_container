@@ -1,6 +1,6 @@
 name: flutter_left_right_container
-description: "Left Right Container"
-version: 0.9.0
+description: A dual-pane layout widget featuring customizable start/end containers with smooth animated collapse, expansion states, and automatic dimension-tracking capabilities.
+version: 0.9.4
 resolution: workspace
 homepage: https://o7planning.github.io
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_artist_core: ^0.9.1
-  flutter_artist_styles: ^0.9.1+1
+  flutter_artist_core: ^1.0.0
+  flutter_artist_styles: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,19 +1,47 @@
-part of '../../left_right_container.dart';
+part of '../../flutter_left_right_container.dart';
 
+/// An advanced, flexible dual-pane layout builder widget featuring sliding co-expansion transitions.
+///
+/// It orchestrates two adjacent child containers ([start] and [end]) separated by an active
+/// responsive divider track, supporting automatic dimension-tracking and animated collapse states.
 class LeftRightContainer extends StatefulWidget {
+  /// The presentation widget tree configuration mounted inside the left or starting viewport track.
   final Widget start;
+
+  /// The presentation widget tree configuration mounted inside the right or ending viewport track.
   final Widget end;
+
+  /// The static, non-expandable width boundary threshold assigned onto the designated [fixedSide] viewport.
   final double fixedSizeWidth;
+
+  /// The baseline lower-bound width limit that the flexible adaptive side pane must preserve before triggering clip lines.
   final double minSideWidth;
+
+  /// Determines which structural pane layer anchors the static hardcoded pixel dimensions metric pass.
   final FixedSide fixedSide;
+
+  /// The absolute horizontal separation spacing layout gap cleared out between the start and end container panels.
   final double spacing;
+
+  /// The vertical layout offset percentage placement governing where the interactive arrow anchor sits along the viewport track.
   final double arrowTopPosition;
+
+  /// Dictates if the flexible panel boundaries should immediately initialize under a completely collapsed layout track state.
   final bool initiallyCollapsed;
+
+  /// Automatically displays both panels concurrently whenever the host context provides sufficient horizontal space metrics.
   final bool autoShowTwoSidesIfPossible;
+
+  /// Hides the interactive co-sliding arrow trigger asset completely if both layout windows possess enough space to stand visible.
   final bool hideArrowIfTwoSidesVisible;
+
+  /// Embeds a sharp vertical line separator tracking between adjacent start and end block interfaces.
   final bool showVerticalDivider;
+
+  /// The centralized aesthetic look-and-feel engine theme constants regulating animations and colors.
   final LeftRightContainerStyle style;
 
+  /// Constructs a standard, production-ready declarative instance of [LeftRightContainer].
   const LeftRightContainer({
     super.key,
     required this.start,

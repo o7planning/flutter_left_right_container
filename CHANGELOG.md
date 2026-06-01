@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.4
+* Update Dependencies.
+ 
+## 0.9.3
+* Add examples.
+
+## 0.9.2
+* Update Dependencies.
+
+## 0.9.1
+* Update Dependencies.
+
+
 ## 0.9.0
 
 * **Breaking Changes & Style Modernization**

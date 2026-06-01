@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../left_right_container.dart';
+import 'package:flutter_left_right_container/flutter_left_right_container.dart';
 
 void main() {
   runApp(const MyApp());
